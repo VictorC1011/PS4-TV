@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#080b12">
+  <title>PS4 TV</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div class="brand" aria-label="PS4 TV">
+        <div class="brand-mark">TV</div>
+        <div><strong>PS4<span>TV</span></strong><small>SUA CENTRAL DE CANAIS</small></div>
+      </div>
+      <label class="search-wrap">
+        <span aria-hidden="true">⌕</span>
+        <input id="searchInput" type="search" placeholder="Buscar canal..." autocomplete="off" aria-label="Buscar canal">
+        <kbd>/</kbd>
+      </label>
+      <div class="top-actions">
+        <button id="favoritesToggle" class="ghost-button" type="button" aria-pressed="false">★ Favoritos</button>
+        <span id="channelCount" class="channel-count">Carregando...</span>
+      </div>
+    </header>
+
+    <div class="layout">
+      <aside class="sidebar">
+        <p class="side-label">BIBLIOTECA</p>
+        <nav id="categoryNav" class="category-nav" aria-label="Categorias">
+          <button class="category-button active" data-category="0" type="button"><span>▦</span> Todos</button>
+        </nav>
+        <div class="sidebar-bottom">
+          <div class="status-dot"></div>
+          <div><strong>PS4 TV</strong><small>Interface experimental</small></div>
+        </div>
+      </aside>
+
+      <main class="main-content">
+        <section id="homeView">
+          <div class="welcome-row">
+            <div>
+              <p class="eyebrow">SEU ENTRETENIMENTO, EM UM SÓ LUGAR</p>
+              <h1 id="sectionTitle">Todos os canais</h1>
+              <p id="sectionSubtitle" class="subtitle">Escolha um canal para começar a assistir.</p>
+            </div>
+            <div class="remote-hint"><span>✦</span> Navegue com o controle do PS4</div>
+          </div>
+          <div id="recentSection" class="recent-section hidden">
+            <div class="section-heading"><h2>Continuar assistindo</h2><span>ÚLTIMO ACESSADO</span></div>
+            <div id="recentCard" class="recent-card"></div>
+          </div>
+          <div class="section-heading channels-heading"><h2 id="gridHeading">Canais</h2><span id="gridMeta"></span></div>
+          <div id="channelGrid" class="channel-grid" aria-live="polite"></div>
+          <div id="emptyState" class="empty-state hidden"><div>⌕</div><h2>Nenhum canal encontrado</h2><p>Tente outro nome ou selecione uma categoria diferente.</p></div>
+        </section>
+
+        <section id="playerView" class="player-view hidden">
+          <div class="player-toolbar">
+            <button id="backButton" class="back-button" type="button">← Voltar aos canais</button>
+            <div class="now-playing"><span class="live-dot"></span> AGORA ASSISTINDO</div>
+            <button id="openExternalButton" class="ghost-button" type="button">Abrir link ↗</button>
+          </div>
+          <div class="player-frame-wrap">
+            <div id="playerPlaceholder" class="player-placeholder">
+              <div class="placeholder-logo">TV</div>
+              <h2 id="playerChannelName">Canal</h2>
+              <p>Carregando transmissão...</p>
+              <div class="loading-bar"><i></i></div>
+              <p class="player-tip">Se o vídeo não aparecer, use <strong>“Abrir link”</strong> para testar a página original do canal.</p>
+            </div>
+            <iframe id="channelFrame" title="Reprodutor do canal" allow="autoplay; fullscreen; encrypted-media; picture-in-picture" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
+          </div>
+          <div class="player-info"><div><p class="eyebrow">CANAL SELECIONADO</p><h1 id="playerInfoName">Canal</h1></div><p>Pressione <kbd>O</kbd> ou selecione “Voltar aos canais” para retornar.</p></div>
+        </section>
+      </main>
+    </div>
+    <footer class="footer"><span>PS4 TV</span><span>Feito para navegar pelo controle</span><span id="footerStatus">Pronto</span></footer>
+  </div>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="app.js"></script>
+</body>
+</html>
