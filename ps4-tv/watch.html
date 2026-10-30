@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#05070b">
+  <title>PS4 TV — Catálogo</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="watch-page">
+  <iframe id="catalogFrame" class="watch-frame" title="Catálogo de entretenimento"
+    allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
+    allowfullscreen webkitallowfullscreen
+    referrerpolicy="strict-origin-when-cross-origin"></iframe>
+  <div class="watch-toolbar">
+    <button id="watchBack" type="button">← Voltar ao menu</button>
+    <button id="watchFullscreen" type="button">⛶ Tela cheia</button>
+    <button id="watchOpenOriginal" type="button">Abrir site ↗</button>
+  </div>
+  <div id="watchFallback" class="watch-fallback" hidden>
+    <span>Se o catálogo não carregar aqui, abra o site diretamente.</span>
+    <button id="watchFallbackOpen" type="button">Abrir site ↗</button>
+  </div>
+  <script>
+    (() => {
+      const params = new URLSearchParams(location.search);
+      const section = params.get("section") === "series" ? "series" : "filmes";
+      const urls = {
+        filmes: "https://redetoons.one/filmes",
+        series: "https://redetoons.one/series"
+      };
+      const titles = { filmes: "Filmes", series: "Séries" };
+      const target = urls[section];
+      const frame = document.getElementById("catalogFrame");
+      document.title = "PS4 TV — " + titles[section];
+      frame.src = target;
+
+      const openOriginal = () => window.open(target, "_blank");
+      document.getElementById("watchOpenOriginal").addEventListener("click", openOriginal);
+      document.getElementById("watchFallbackOpen").addEventListener("click", openOriginal);
+      document.getElementById("watchBack").addEventListener("click", () => {
+        // A página inicial permanece na aba anterior; voltar também funciona se aberta isoladamente.
+        if (history.length > 1) history.back();
+        else location.href = "index.html";
+      });
+      document.getElementById("watchFullscreen").addEventListener("click", async () => {
+        try {
+          const targetElement = document.documentElement;
+          if (targetElement.requestFullscreen) await targetElement.requestFullscreen();
+          else if (frame.requestFullscreen) await frame.requestFullscreen();
+          else document.getElementById("watchFallback").hidden = false;
+        } catch (_) {
+          document.getElementById("watchFallback").hidden = false;
+        }
+      });
+
+      // Alguns sites recusam incorporação em iframe (X-Frame-Options/CSP).
+      // Mostra uma alternativa sem impedir a tentativa de carregar o catálogo.
+      window.setTimeout(() => {
+        document.getElementById("watchFallback").hidden = false;
+      }, 9000);
+      frame.addEventListener("load", () => {
+        // Não é possível detectar de forma confiável o conteúdo de um iframe cross-origin.
+        // O botão fica disponível como fallback discreto após o carregamento.
+        window.setTimeout(() => {
+          document.getElementById("watchFallback").hidden = false;
+        }, 3500);
+      });
+    })();
+  </script>
+</body>
+</html>
